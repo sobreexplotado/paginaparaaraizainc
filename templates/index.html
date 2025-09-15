@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center justify-content-center min-vh-75">
+            <div class="col-lg-10 col-xl-8">
+                <div class="text-center py-5 mt-5">
+                    <h1 class="display-3 fw-bold mb-4">{{ hero_title or "Transformamos ideas en soluciones tecnológicas" }}</h1>
+                    <p class="lead mb-5 fs-4">{{ hero_subtitle or "Expertos en desarrollo, telecomunicaciones, IA y más" }}</p>
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                        <a href="{{ url_for('servicios') }}" class="btn btn-light btn-lg px-4 py-3">
+                            <i class="fas fa-cogs me-2"></i>Ver Servicios
+                        </a>
+                        <a href="{{ url_for('cotizacion') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="fas fa-calculator me-2"></i>Solicitar Cotización
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decorative Image/Icon Section -->
+        <div class="row justify-content-center mt-1">
+            <div class="col-lg-10 text-center">
+                <img src="{{ url_for('static', filename='images/hero-image.svg') }}" alt="Hero Image" 
+                     class="img-fluid" style="max-height: 350px; max-width: 800px; width: 100%; opacity: 0.8;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Nuestras Especialidades</h2>
+            <p class="lead text-muted">Ofrecemos soluciones completas en múltiples áreas tecnológicas</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm hover-card">
+                    <div class="card-body text-center">
+                        <div class="category-icon mb-3">
+                            {% if category.id == 1 %}
+                                <i class="fas fa-code fa-3x text-primary"></i>
+                            {% elif category.id == 2 %}
+                                <i class="fas fa-phone fa-3x text-success"></i>
+                            {% elif category.id == 3 %}
+                                <i class="fas fa-plane fa-3x text-info"></i>
+                            {% elif category.id == 4 %}
+                                <i class="fas fa-paint-brush fa-3x text-warning"></i>
+                            {% elif category.id == 5 %}
+                                <i class="fas fa-microchip fa-3x text-danger"></i>
+                            {% elif category.id == 6 %}
+                                <i class="fas fa-brain fa-3x text-purple"></i>
+                            {% else %}
+                                <i class="fas fa-cog fa-3x text-secondary"></i>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title">{{ category.nombre }}</h5>
+                        <p class="card-text text-muted">{{ category.descripcion }}</p>
+                        <a href="{{ url_for('servicios', categoria=category.id) }}" class="btn btn-outline-primary">
+                            Ver Servicios <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Services Section -->
+{% if featured_services %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Servicios Destacados</h2>
+            <p class="lead text-muted">Algunos de nuestros servicios más populares</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for service in featured_services %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm">
+                    {% if service.imagen %}
+                    <img src="{{ service.imagen }}" class="card-img-top" alt="{{ service.nombre }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ service.nombre }}</h5>
+                        <p class="card-text text-muted">{{ service.descripcion }}</p>
+                        {% if service.precio %}
+                        <p class="text-primary fw-bold">{{ service.precio }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ url_for('servicio_detalle', service_id=service.id) }}" class="btn btn-primary w-100">
+                            Más Información
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ url_for('servicios') }}" class="btn btn-primary btn-lg">
+                Ver Todos los Servicios <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Portfolio Preview Section -->
+{% if featured_portfolio %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Proyectos Recientes</h2>
+            <p class="lead text-muted">Algunos de nuestros trabajos más destacados</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for project in featured_portfolio %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm portfolio-card">
+                    {% if project.imagen %}
+                    <img src="{{ project.imagen }}" class="card-img-top" alt="{{ project.titulo }}" style="height: 250px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.titulo }}</h5>
+                        <p class="card-text text-muted">{{ project.descripcion[:100] }}{% if project.descripcion|length > 100 %}...{% endif %}</p>
+                        {% if project.cliente %}
+                        <p class="text-primary"><strong>Cliente:</strong> {{ project.cliente }}</p>
+                        {% endif %}
+                        {% if project.tecnologias %}
+                        <div class="mb-2">
+                            {% for tech in project.tecnologias.split(',') %}
+                            <span class="badge bg-secondary me-1">{{ tech.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('portafolio_detalle', portfolio_id=project.id) }}" class="btn btn-outline-primary">
+                                Ver Detalles
+                            </a>
+                            {% if project.url %}
+                            <a href="{{ project.url }}" class="btn btn-primary" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Ver Sitio
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ url_for('portafolio') }}" class="btn btn-primary btn-lg">
+                Ver Portafolio Completo <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3 class="fw-bold mb-2">¿Listo para comenzar tu proyecto?</h3>
+                <p class="mb-0">Obtén una cotización personalizada para tus necesidades tecnológicas</p>
+            </div>
+            <div class="col-lg-4 text-end">
+                <a href="{{ url_for('cotizacion') }}" class="btn btn-light btn-lg">
+                    <i class="fas fa-calculator me-2"></i>Solicitar Cotización
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Add hover effects for cards
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.hover-card, .portfolio-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold">Política de Privacidad</h1>
+                <p class="text-muted">Última actualización: {{ moment().format('DD/MM/YYYY') }}</p>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-5">
+                    {% if privacy_content %}
+                        {{ privacy_content|safe }}
+                    {% else %}
+                        <h3>1. Información que Recopilamos</h3>
+                        <p>En {{ company_name }}, recopilamos la siguiente información:</p>
+                        <ul>
+                            <li><strong>Información Personal:</strong> Nombre, dirección de correo electrónico, número de teléfono y otra información que nos proporciona voluntariamente.</li>
+                            <li><strong>Información de Uso:</strong> Datos sobre cómo utiliza nuestro sitio web, incluyendo páginas visitadas y tiempo de navegación.</li>
+                            <li><strong>Información Técnica:</strong> Dirección IP, tipo de navegador, sistema operativo y otra información técnica.</li>
+                        </ul>
+
+                        <h3>2. Cómo Utilizamos su Información</h3>
+                        <p>Utilizamos su información para:</p>
+                        <ul>
+                            <li>Proporcionar y mejorar nuestros servicios</li>
+                            <li>Comunicarnos con usted sobre sus consultas y cotizaciones</li>
+                            <li>Enviar información sobre nuestros servicios (con su consentimiento)</li>
+                            <li>Cumplir con obligaciones legales</li>
+                        </ul>
+
+                        <h3>3. Compartir Información</h3>
+                        <p>No vendemos, intercambiamos ni transferimos su información personal a terceros sin su consentimiento, excepto en los siguientes casos:</p>
+                        <ul>
+                            <li>Proveedores de servicios de confianza que nos ayudan a operar nuestro sitio web</li>
+                            <li>Cuando sea requerido por ley</li>
+                            <li>Para proteger nuestros derechos y seguridad</li>
+                        </ul>
+
+                        <h3>4. Cookies</h3>
+                        <p>Utilizamos cookies para mejorar su experiencia en nuestro sitio web. Puede configurar su navegador para rechazar cookies, aunque esto puede afectar la funcionalidad del sitio.</p>
+
+                        <h3>5. Seguridad</h3>
+                        <p>Implementamos medidas de seguridad apropiadas para proteger su información personal contra acceso no autorizado, alteración, divulgación o destrucción.</p>
+
+                        <h3>6. Sus Derechos</h3>
+                        <p>Usted tiene derecho a:</p>
+                        <ul>
+                            <li>Acceder a su información personal</li>
+                            <li>Corregir información inexacta</li>
+                            <li>Solicitar la eliminación de su información</li>
+                            <li>Oponerse al procesamiento de su información</li>
+                        </ul>
+
+                        <h3>7. Contacto</h3>
+                        <p>Si tiene preguntas sobre esta política de privacidad, puede contactarnos:</p>
+                        <ul>
+                            {% if company_email %}<li>Email: {{ company_email }}</li>{% endif %}
+                            {% if company_phone %}<li>Teléfono: {{ company_phone }}</li>{% endif %}
+                            {% if company_address %}<li>Dirección: {{ company_address }}</li>{% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Volver al Inicio</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

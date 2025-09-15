@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="text-center">
+                <h1 class="display-4 fw-bold mb-3">Contáctanos</h1>
+                <p class="lead text-muted">Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos pronto.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Contact Form -->
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h4 class="mb-4">Envíanos un Mensaje</h4>
+                    
+                    <form method="POST" action="{{ url_for('contacto') }}" id="contactForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre Completo <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="asunto" class="form-label">Asunto</label>
+                                <input type="text" class="form-control" id="asunto" name="asunto" 
+                                       placeholder="¿En qué podemos ayudarte?">
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="mensaje" class="form-label">Mensaje <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="mensaje" name="mensaje" rows="6" 
+                                          placeholder="Escribe tu mensaje aquí..." required></textarea>
+                            </div>
+                            
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-paper-plane me-2"></i>Enviar Mensaje
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="col-lg-4">
+            <!-- Contact Info Card -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Información de Contacto</h5>
+                    
+                    {% if company_email %}
+                    <div class="contact-item mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="contact-icon bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" 
+                                 style="width: 40px; height: 40px;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Email</h6>
+                                <a href="mailto:{{ company_email }}" class="text-muted text-decoration-none">{{ company_email }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if company_phone %}
+                    <div class="contact-item mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="contact-icon bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" 
+                                 style="width: 40px; height: 40px;">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Teléfono</h6>
+                                <a href="tel:{{ company_phone }}" class="text-muted text-decoration-none">{{ company_phone }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if company_address %}
+                    <div class="contact-item mb-3">
+                        <div class="d-flex align-items-start">
+                            <div class="contact-icon bg-info text-white rounded-circle me-3 d-flex align-items-center justify-content-center" 
+                                 style="width: 40px; height: 40px;">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Dirección</h6>
+                                <p class="text-muted mb-0">{{ company_address }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Síguenos</h5>
+                    <div class="d-flex gap-3">
+                        {% if facebook_url %}
+                        <a href="{{ facebook_url }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if twitter_url %}
+                        <a href="{{ twitter_url }}" class="btn btn-outline-info" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if linkedin_url %}
+                        <a href="{{ linkedin_url }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if instagram_url %}
+                        <a href="{{ instagram_url }}" class="btn btn-outline-danger" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Acciones Rápidas</h5>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('cotizacion') }}" class="btn btn-primary">
+                            <i class="fas fa-calculator me-2"></i>Solicitar Cotización
+                        </a>
+                        
+                        <a href="{{ url_for('servicios') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-cogs me-2"></i>Ver Servicios
+                        </a>
+                        
+                        <a href="{{ url_for('portafolio') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-folder-open me-2"></i>Ver Portafolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="text-center mb-4">Preguntas Frecuentes</h3>
+            
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#faq1">
+                            ¿Cuánto tiempo toma obtener una respuesta?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Normalmente respondemos dentro de 24-48 horas hábiles. Para cotizaciones urgentes, 
+                            puedes llamarnos directamente.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#faq2">
+                            ¿Ofrecen consultas gratuitas?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Sí, ofrecemos consultas iniciales gratuitas para evaluar tus necesidades y 
+                            determinar la mejor solución para tu proyecto.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#faq3">
+                            ¿Trabajan con empresas de cualquier tamaño?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Absolutamente. Trabajamos con startups, pequeñas empresas y grandes corporaciones, 
+                            adaptando nuestras soluciones a cada necesidad específica.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#faq4">
+                            ¿Qué métodos de pago aceptan?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Aceptamos transferencias bancarias, pagos con tarjeta de crédito/débito y 
+                            sistemas de pago en línea. Ofrecemos planes de pago flexibles para proyectos grandes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', function(e) {
+        const nombre = document.getElementById('nombre').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const mensaje = document.getElementById('mensaje').value.trim();
+        
+        if (!nombre || !email || !mensaje) {
+            e.preventDefault();
+            alert('Por favor complete todos los campos requeridos.');
+            return false;
+        }
+        
+        // Simple email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            e.preventDefault();
+            alert('Por favor ingrese un email válido.');
+            return false;
+        }
+        
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enviando...';
+    });
+});
+</script>
+{% endblock %}

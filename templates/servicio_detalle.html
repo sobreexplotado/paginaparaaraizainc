@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('servicios') }}">Servicios</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('servicios', categoria=service.id_categoria) }}">{{ service.category.nombre }}</a></li>
+            <li class="breadcrumb-item active">{{ service.nombre }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Service Details -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                {% if service.imagen %}
+                <img src="{{ service.imagen }}" class="card-img-top" alt="{{ service.nombre }}" 
+                     style="height: 400px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                     style="height: 400px;">
+                    <i class="fas fa-cog fa-5x text-muted"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h1 class="card-title mb-2">{{ service.nombre }}</h1>
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-tag me-2"></i>{{ service.category.nombre }}
+                            </p>
+                        </div>
+                        {% if service.precio %}
+                        <div class="text-end">
+                            <span class="badge bg-primary fs-5">{{ service.precio }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="service-description">
+                        <h5>Descripción del Servicio</h5>
+                        <p class="lead">{{ service.descripcion }}</p>
+                        
+                        <!-- Additional service details could go here -->
+                        <div class="mt-4">
+                            <h6>¿Por qué elegir este servicio?</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Solución personalizada para tus necesidades</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Tecnología de vanguardia</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Soporte técnico especializado</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Implementación eficiente</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Quote CTA -->
+            <div class="card mb-4 bg-primary text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-3">¿Interesado en este servicio?</h5>
+                    <p class="card-text mb-4">Obtén una cotización personalizada sin compromiso</p>
+                    <a href="{{ url_for('cotizacion') }}?servicio={{ service.id }}" 
+                       class="btn btn-light btn-lg w-100">
+                        <i class="fas fa-calculator me-2"></i>Solicitar Cotización
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">¿Tienes preguntas?</h5>
+                    <p class="card-text text-muted">Nuestro equipo está listo para ayudarte</p>
+                    
+                    {% if company_phone %}
+                    <div class="mb-2">
+                        <i class="fas fa-phone text-primary me-2"></i>
+                        <a href="tel:{{ company_phone }}" class="text-decoration-none">{{ company_phone }}</a>
+                    </div>
+                    {% endif %}
+                    
+                    {% if company_email %}
+                    <div class="mb-3">
+                        <i class="fas fa-envelope text-primary me-2"></i>
+                        <a href="mailto:{{ company_email }}" class="text-decoration-none">{{ company_email }}</a>
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{{ url_for('contacto') }}" class="btn btn-outline-primary w-100">
+                        <i class="fas fa-envelope me-2"></i>Enviar Mensaje
+                    </a>
+                </div>
+            </div>
+
+            <!-- Service Category -->
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Categoría</h6>
+                    <div class="d-flex align-items-center">
+                        <div class="category-icon me-3">
+                            {% if service.id_categoria == 1 %}
+                                <i class="fas fa-code fa-2x text-primary"></i>
+                            {% elif service.id_categoria == 2 %}
+                                <i class="fas fa-phone fa-2x text-success"></i>
+                            {% elif service.id_categoria == 3 %}
+                                <i class="fas fa-plane fa-2x text-info"></i>
+                            {% elif service.id_categoria == 4 %}
+                                <i class="fas fa-paint-brush fa-2x text-warning"></i>
+                            {% elif service.id_categoria == 5 %}
+                                <i class="fas fa-microchip fa-2x text-danger"></i>
+                            {% elif service.id_categoria == 6 %}
+                                <i class="fas fa-brain fa-2x text-purple"></i>
+                            {% else %}
+                                <i class="fas fa-cog fa-2x text-secondary"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h6 class="mb-1">{{ service.category.nombre }}</h6>
+                            <p class="text-muted mb-0 small">{{ service.category.descripcion }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a href="{{ url_for('servicios', categoria=service.id_categoria) }}" 
+                           class="btn btn-outline-secondary btn-sm">
+                            Ver más servicios de esta categoría
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Services -->
+    {% if related_services %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="mb-4">Servicios Relacionados</h3>
+            <div class="row g-4">
+                {% for related_service in related_services %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        {% if related_service.imagen %}
+                        <img src="{{ related_service.imagen }}" class="card-img-top" alt="{{ related_service.nombre }}" 
+                             style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                             style="height: 200px;">
+                            <i class="fas fa-cog fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{ related_service.nombre }}</h5>
+                            <p class="card-text text-muted">{{ related_service.descripcion[:100] }}{% if related_service.descripcion|length > 100 %}...{% endif %}</p>
+                            
+                            {% if related_service.precio %}
+                            <div class="mb-3">
+                                <span class="badge bg-primary">{{ related_service.precio }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ url_for('servicio_detalle', service_id=related_service.id) }}" 
+                                   class="btn btn-outline-primary btn-sm">
+                                    Ver Detalles
+                                </a>
+                                <a href="{{ url_for('cotizacion') }}?servicio={{ related_service.id }}" 
+                                   class="btn btn-primary btn-sm">
+                                    Cotizar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

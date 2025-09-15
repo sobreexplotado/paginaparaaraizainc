@@ -1,0 +1,118 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Gestión de Servicios</h2>
+    <a href="{{ url_for('admin.nuevo_servicio') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Nuevo Servicio
+    </a>
+</div>
+
+{% if services %}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                    <tr>
+                        <td>{{ service.id }}</td>
+                        <td>
+                            <strong>{{ service.nombre }}</strong>
+                            {% if service.imagen %}
+                            <br><small class="text-muted"><i class="fas fa-image me-1"></i>Con imagen</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ service.category.nombre }}</span>
+                        </td>
+                        <td>
+                            {% if service.precio %}
+                                {{ service.precio }}
+                            {% else %}
+                                <span class="text-muted">No definido</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if service.activo %}
+                                <span class="badge bg-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ service.created_at.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('admin.editar_servicio', servicio_id=service.id) }}" 
+                                   class="btn btn-sm btn-outline-primary" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-danger" 
+                                        onclick="confirmDelete('{{ service.id }}', '{{ service.nombre }}')" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="fas fa-cogs fa-3x text-muted mb-3"></i>
+    <h4>No hay servicios registrados</h4>
+    <p class="text-muted">Comienza agregando tu primer servicio</p>
+    <a href="{{ url_for('admin.nuevo_servicio') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Crear Primer Servicio
+    </a>
+</div>
+{% endif %}
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar el servicio <strong id="serviceName"></strong>?</p>
+                <p class="text-danger small">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function confirmDelete(serviceId, serviceName) {
+    document.getElementById('serviceName').textContent = serviceName;
+    document.getElementById('deleteForm').action = `/admin/servicios/${serviceId}/eliminar`;
+    
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

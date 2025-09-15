@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold">Términos y Condiciones</h1>
+                <p class="text-muted">Última actualización: {{ moment().format('DD/MM/YYYY') }}</p>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-5">
+                    {% if terms_content %}
+                        {{ terms_content|safe }}
+                    {% else %}
+                        <h3>1. Aceptación de los Términos</h3>
+                        <p>Al acceder y utilizar este sitio web, usted acepta cumplir y estar sujeto a estos términos y condiciones de uso.</p>
+
+                        <h3>2. Uso del Sitio Web</h3>
+                        <p>Este sitio web está destinado únicamente para uso personal y comercial legítimo. No debe utilizarlo para ningún propósito ilegal o prohibido.</p>
+
+                        <h3>3. Servicios</h3>
+                        <p>Los servicios descritos en este sitio web son proporcionados por {{ company_name }}. Nos reservamos el derecho de modificar o discontinuar cualquier servicio en cualquier momento.</p>
+
+                        <h3>4. Propiedad Intelectual</h3>
+                        <p>Todo el contenido de este sitio web, incluyendo texto, gráficos, logos, íconos, imágenes y software, es propiedad de {{ company_name }} y está protegido por las leyes de derechos de autor.</p>
+
+                        <h3>5. Limitación de Responsabilidad</h3>
+                        <p>{{ company_name }} no será responsable de ningún daño directo, indirecto, incidental, especial o consecuente que resulte del uso o la incapacidad de usar este sitio web.</p>
+
+                        <h3>6. Modificaciones</h3>
+                        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán en vigor inmediatamente después de su publicación en el sitio web.</p>
+
+                        <h3>7. Contacto</h3>
+                        <p>Si tiene preguntas sobre estos términos y condiciones, puede contactarnos a través de:</p>
+                        <ul>
+                            {% if company_email %}<li>Email: {{ company_email }}</li>{% endif %}
+                            {% if company_phone %}<li>Teléfono: {{ company_phone }}</li>{% endif %}
+                            {% if company_address %}<li>Dirección: {{ company_address }}</li>{% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Volver al Inicio</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

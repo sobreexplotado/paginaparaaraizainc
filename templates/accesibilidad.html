@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold">Declaración de Accesibilidad</h1>
+                <p class="text-muted">Nuestro compromiso con la accesibilidad web</p>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-5">
+                    {% if accessibility_content %}
+                        {{ accessibility_content|safe }}
+                    {% else %}
+                        <h3>Nuestro Compromiso</h3>
+                        <p>En {{ company_name }}, estamos comprometidos a garantizar que nuestro sitio web sea accesible para todas las personas, incluidas aquellas con discapacidades.</p>
+
+                        <h3>Estándares de Accesibilidad</h3>
+                        <p>Nos esforzamos por cumplir con las Pautas de Accesibilidad para el Contenido Web (WCAG) 2.1 nivel AA, que son reconocidas internacionalmente como estándar para la accesibilidad web.</p>
+
+                        <h3>Características de Accesibilidad</h3>
+                        <p>Nuestro sitio web incluye las siguientes características de accesibilidad:</p>
+                        <ul>
+                            <li><strong>Navegación por teclado:</strong> Todas las funciones son accesibles mediante el teclado</li>
+                            <li><strong>Texto alternativo:</strong> Todas las imágenes tienen descripciones alternativas</li>
+                            <li><strong>Contraste de color:</strong> Utilizamos combinaciones de colores con suficiente contraste</li>
+                            <li><strong>Estructura clara:</strong> Uso de encabezados y listas para organizar el contenido</li>
+                            <li><strong>Texto redimensionable:</strong> El texto se puede ampliar hasta un 200% sin perder funcionalidad</li>
+                            <li><strong>Formularios accesibles:</strong> Etiquetas claras y mensajes de error descriptivos</li>
+                        </ul>
+
+                        <h3>Tecnologías Compatibles</h3>
+                        <p>Este sitio web es compatible con:</p>
+                        <ul>
+                            <li>Lectores de pantalla como NVDA, JAWS y VoiceOver</li>
+                            <li>Navegadores web actuales (Chrome, Firefox, Safari, Edge)</li>
+                            <li>Tecnologías de asistencia para navegación por teclado</li>
+                            <li>Software de reconocimiento de voz</li>
+                        </ul>
+
+                        <h3>Limitaciones Conocidas</h3>
+                        <p>Aunque nos esforzamos por la máxima accesibilidad, pueden existir algunas limitaciones:</p>
+                        <ul>
+                            <li>Algunos contenidos de terceros pueden no cumplir completamente con los estándares de accesibilidad</li>
+                            <li>Estamos trabajando continuamente para mejorar la accesibilidad de todas las funciones</li>
+                        </ul>
+
+                        <h3>Mejoras Continuas</h3>
+                        <p>Estamos comprometidos con la mejora continua de la accesibilidad de nuestro sitio web. Nuestros esfuerzos incluyen:</p>
+                        <ul>
+                            <li>Auditorías regulares de accesibilidad</li>
+                            <li>Pruebas con usuarios con discapacidades</li>
+                            <li>Capacitación continua de nuestro equipo de desarrollo</li>
+                            <li>Actualización regular de nuestras prácticas de accesibilidad</li>
+                        </ul>
+
+                        <h3>Comentarios y Asistencia</h3>
+                        <p>Si encuentra alguna barrera de accesibilidad en nuestro sitio web o necesita asistencia para acceder a algún contenido, no dude en contactarnos:</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6>Contacto por Email</h6>
+                                        {% if company_email %}
+                                        <p class="mb-0">
+                                            <i class="fas fa-envelope me-2"></i>
+                                            <a href="mailto:{{ company_email }}">{{ company_email }}</a>
+                                        </p>
+                                        {% endif %}
+                                        <small class="text-muted">Asunto: Accesibilidad Web</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6>Contacto Telefónico</h6>
+                                        {% if company_phone %}
+                                        <p class="mb-0">
+                                            <i class="fas fa-phone me-2"></i>
+                                            <a href="tel:{{ company_phone }}">{{ company_phone }}</a>
+                                        </p>
+                                        {% endif %}
+                                        <small class="text-muted">Horario: Lunes a Viernes, 9:00 AM - 6:00 PM</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Fecha de esta Declaración</h3>
+                        <p>Esta declaración de accesibilidad fue preparada el {{ moment().format('DD de MMMM de YYYY') }} y se revisa periódicamente.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Volver al Inicio</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

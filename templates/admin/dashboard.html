@@ -1,0 +1,195 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Dashboard</h2>
+    <div class="text-muted">
+        <i class="fas fa-calendar me-1"></i>{{ moment().format('DD/MM/YYYY') }}
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="text-muted small">Total Servicios</div>
+                        <div class="h4 mb-0">{{ stats.total_services }}</div>
+                    </div>
+                    <div class="text-primary">
+                        <i class="fas fa-cogs fa-2x"></i>
+                    </div>
+                </div>
+                <div class="small text-muted mt-1">
+                    {{ stats.active_services }} activos
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card success mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="text-muted small">Proyectos</div>
+                        <div class="h4 mb-0">{{ stats.total_portfolio }}</div>
+                    </div>
+                    <div class="text-success">
+                        <i class="fas fa-folder-open fa-2x"></i>
+                    </div>
+                </div>
+                <div class="small text-muted mt-1">
+                    {{ stats.active_portfolio }} publicados
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card warning mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="text-muted small">Cotizaciones</div>
+                        <div class="h4 mb-0">{{ stats.quote_requests }}</div>
+                    </div>
+                    <div class="text-warning">
+                        <i class="fas fa-calculator fa-2x"></i>
+                    </div>
+                </div>
+                <div class="small text-muted mt-1">
+                    {{ stats.pending_quotes }} pendientes
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card danger mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="text-muted small">Contactos</div>
+                        <div class="h4 mb-0">{{ stats.contacts }}</div>
+                    </div>
+                    <div class="text-danger">
+                        <i class="fas fa-envelope fa-2x"></i>
+                    </div>
+                </div>
+                <div class="small text-muted mt-1">
+                    {{ stats.new_contacts }} nuevos
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Cotizaciones Recientes</h5>
+                <a href="{{ url_for('admin.cotizaciones') }}" class="btn btn-sm btn-outline-primary">Ver Todas</a>
+            </div>
+            <div class="card-body">
+                {% if recent_quotes %}
+                    {% for quote in recent_quotes %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            <strong>{{ quote.nombre }}</strong>
+                            <br>
+                            <small class="text-muted">{{ quote.email }}</small>
+                            {% if quote.categoria %}
+                            <br>
+                            <span class="badge bg-secondary">{{ quote.categoria.nombre }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="text-end">
+                            <div class="small text-muted">{{ quote.created_at.strftime('%d/%m/%Y') }}</div>
+                            <span class="badge bg-{{ 'warning' if quote.estado == 'pendiente' else 'success' }}">
+                                {{ quote.estado.title() }}
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">No hay cotizaciones recientes</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Contactos Recientes</h5>
+                <a href="{{ url_for('admin.contactos') }}" class="btn btn-sm btn-outline-primary">Ver Todos</a>
+            </div>
+            <div class="card-body">
+                {% if recent_contacts %}
+                    {% for contact in recent_contacts %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            <strong>{{ contact.nombre }}</strong>
+                            <br>
+                            <small class="text-muted">{{ contact.email }}</small>
+                            {% if contact.asunto %}
+                            <br>
+                            <small>{{ contact.asunto[:30] }}{% if contact.asunto|length > 30 %}...{% endif %}</small>
+                            {% endif %}
+                        </div>
+                        <div class="text-end">
+                            <div class="small text-muted">{{ contact.created_at.strftime('%d/%m/%Y') }}</div>
+                            <span class="badge bg-{{ 'primary' if contact.estado == 'nuevo' else 'secondary' }}">
+                                {{ contact.estado.title() }}
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">No hay contactos recientes</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Acciones Rápidas</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.nuevo_servicio') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-plus me-2"></i>Nuevo Servicio
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.nuevo_portafolio') }}" class="btn btn-success w-100">
+                            <i class="fas fa-plus me-2"></i>Nuevo Proyecto
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.nueva_categoria') }}" class="btn btn-info w-100">
+                            <i class="fas fa-plus me-2"></i>Nueva Categoría
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.configuracion') }}" class="btn btn-secondary w-100">
+                            <i class="fas fa-cog me-2"></i>Configuración
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="text-center">
+                <h1 class="display-4 fw-bold mb-3">Nuestro Portafolio</h1>
+                <p class="lead text-muted">Conoce algunos de nuestros proyectos más destacados y exitosos</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Grid -->
+    {% if portfolio_items %}
+    <div class="row g-4">
+        {% for project in portfolio_items %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm portfolio-card">
+                {% if project.imagen %}
+                <div class="position-relative overflow-hidden">
+                    <img src="{{ project.imagen }}" class="card-img-top" alt="{{ project.titulo }}" 
+                         style="height: 250px; object-fit: cover; transition: transform 0.3s ease;">
+                    <div class="portfolio-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
+                         style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease;">
+                        <div class="text-center text-white">
+                            <a href="{{ url_for('portafolio_detalle', portfolio_id=project.id) }}" 
+                               class="btn btn-light btn-sm me-2">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            {% if project.url %}
+                            <a href="{{ project.url }}" class="btn btn-primary btn-sm" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Ver Sitio
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                     style="height: 250px;">
+                    <i class="fas fa-image fa-3x text-muted"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.titulo }}</h5>
+                    <p class="card-text text-muted">{{ project.descripcion[:120] }}{% if project.descripcion|length > 120 %}...{% endif %}</p>
+                    
+                    <!-- Project Info -->
+                    <div class="project-info">
+                        {% if project.cliente %}
+                        <p class="mb-2"><strong>Cliente:</strong> <span class="text-primary">{{ project.cliente }}</span></p>
+                        {% endif %}
+                        
+                        {% if project.fecha_proyecto %}
+                        <p class="mb-2"><strong>Fecha:</strong> {{ project.fecha_proyecto.strftime('%B %Y') }}</p>
+                        {% endif %}
+                        
+                        {% if project.tecnologias %}
+                        <div class="mb-3">
+                            <strong>Tecnologías:</strong><br>
+                            {% for tech in project.tecnologias.split(',') %}
+                            <span class="badge bg-secondary me-1 mb-1">{{ tech.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('portafolio_detalle', portfolio_id=project.id) }}" 
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                        </a>
+                        {% if project.url %}
+                        <a href="{{ project.url }}" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-external-link-alt me-1"></i>Ver Sitio
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                <h3>Portafolio en Construcción</h3>
+                <p class="text-muted">Estamos preparando nuestros mejores proyectos para mostrar. ¡Vuelve pronto!</p>
+                <a href="{{ url_for('contacto') }}" class="btn btn-primary">Contáctanos</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- CTA Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-gradient text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-body text-center py-5">
+                    <h3 class="fw-bold mb-3">¿Quieres que tu proyecto aparezca aquí?</h3>
+                    <p class="mb-4">Trabajemos juntos para crear soluciones tecnológicas innovadoras</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{{ url_for('cotizacion') }}" class="btn btn-light btn-lg">
+                            <i class="fas fa-calculator me-2"></i>Solicitar Cotización
+                        </a>
+                        <a href="{{ url_for('contacto') }}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Contactar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Add hover effects for portfolio cards
+document.addEventListener('DOMContentLoaded', function() {
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    
+    portfolioCards.forEach(card => {
+        const img = card.querySelector('img');
+        const overlay = card.querySelector('.portfolio-overlay');
+        
+        if (img && overlay) {
+            card.addEventListener('mouseenter', function() {
+                img.style.transform = 'scale(1.1)';
+                overlay.style.opacity = '1';
+                this.style.transform = 'translateY(-5px)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                img.style.transform = 'scale(1)';
+                overlay.style.opacity = '0';
+                this.style.transform = 'translateY(0)';
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold mb-3">Acerca de {{ company_name }}</h1>
+                <p class="lead text-muted">Conoce nuestra historia, misión y el equipo que hace posible tu éxito tecnológico</p>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    {% if about_content %}
+                        <div class="content">
+                            {{ about_content|safe }}
+                        </div>
+                    {% else %}
+                        <div class="content">
+                            <h3>Nuestra Historia</h3>
+                            <p class="lead">Araiza Inc nació con la visión de transformar las ideas en soluciones tecnológicas innovadoras que impulsen el crecimiento de las empresas.</p>
+                            
+                            <p>Desde nuestros inicios, nos hemos especializado en ofrecer servicios integrales de tecnología, desde desarrollo web y aplicaciones hasta telecomunicaciones, inteligencia artificial y soluciones de automatización.</p>
+
+                            <h4 class="mt-5 mb-3">Nuestra Misión</h4>
+                            <p>Proporcionar soluciones tecnológicas de vanguardia que permitan a nuestros clientes alcanzar sus objetivos de negocio de manera eficiente y rentable.</p>
+
+                            <h4 class="mt-4 mb-3">Nuestra Visión</h4>
+                            <p>Ser reconocidos como el socio tecnológico de confianza que impulsa la transformación digital de las empresas en toda la región.</p>
+
+                            <h4 class="mt-4 mb-3">Nuestros Valores</h4>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-lightbulb fa-2x text-primary"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Innovación</h5>
+                                            <p>Mantenemos un enfoque constante en las últimas tecnologías y tendencias del mercado.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-handshake fa-2x text-success"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Compromiso</h5>
+                                            <p>Nos comprometemos completamente con el éxito de cada proyecto y cliente.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-award fa-2x text-warning"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Calidad</h5>
+                                            <p>Entregamos soluciones de la más alta calidad con estándares internacionales.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-users fa-2x text-info"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Colaboración</h5>
+                                            <p>Trabajamos en estrecha colaboración con nuestros clientes como socios estratégicos.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4 class="mt-5 mb-3">¿Por qué Elegirnos?</h4>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Experiencia comprobada en múltiples industrias</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Equipo multidisciplinario de expertos</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tecnologías de vanguardia</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Soporte 24/7</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Precios competitivos</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tiempos de entrega optimizados</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Soluciones escalables</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Garantía de satisfacción</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="text-center mt-5">
+                <h3 class="mb-3">¿Listo para trabajar con nosotros?</h3>
+                <p class="text-muted mb-4">Descubre cómo podemos ayudarte a alcanzar tus objetivos tecnológicos</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ url_for('cotizacion') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-calculator me-2"></i>Solicitar Cotización
+                    </a>
+                    <a href="{{ url_for('contacto') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Contactar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
